@@ -7,7 +7,7 @@ authors:
  - Marina Kuznetsova <marica.tim@gmail.com>
  - Brian Egan <brian@brianegan.com>
 homepage: https://github.com/fluttercommunity/flutter-draggable-scrollbar
-maintainer:Marina Kuznetsova (@marica27)
+maintainer: Marina Kuznetsova (@marica27)
 
 environment:
   sdk: ">=1.19.0 <2.0.0"
