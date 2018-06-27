@@ -1,0 +1,6 @@
+is_package: true
+package_name: draggable_scrollbar
+maintainer_name: Marina Kuznetsova
+maintainer_username: marica27
+package_description: A scrollbar that can be dragged for quickly navigation through a vertical list with optional label next to scrollthumb with information about current item
+pub_package_name: draggable_scrollbar
