@@ -8,7 +8,7 @@ authors:
 homepage: https://github.com/marica27/flutter-draggable-scrollbar
 
 environment:
-  sdk: ">=1.8.0 <2.0.0"
+  sdk: ">=1.19.0 <2.0.0"
 
 dependencies:
   flutter:
