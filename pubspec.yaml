@@ -1,6 +1,6 @@
 name: draggable_scrollbar
 description: A scrollbar that can be dragged for quickly navigation through a vertical list.
-             Additional option is showing label next to scrollthumb with information about current item
+             Additional option is showing label next to scrollthumb with information about current item.
 version: 0.0.1
 authors:
  - Flutter Community <community@flutter.zone>
