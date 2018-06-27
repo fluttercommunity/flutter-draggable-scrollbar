@@ -88,6 +88,7 @@ class SemicircleDemo extends StatelessWidget {
 
         return Text("$currentItem");
       },
+      labelConstraints: BoxConstraints.tightFor(width: 80.0, height: 30.0),
       controller: controller,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -211,6 +212,7 @@ class CustomDemo extends StatelessWidget {
           Animation<double> labelAnimation,
           double height, {
             Text labelText,
+            BoxConstraints labelConstraints,
           }) {
         return FadeTransition(
           opacity: thumbAnimation,
