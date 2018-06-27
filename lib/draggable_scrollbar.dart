@@ -197,17 +197,32 @@ class DraggableScrollbar extends StatefulWidget {
     double height, {
     Text labelText,
   }) {
+    final scrollThumb = Material(
+      elevation: 4.0,
+      child: Container(
+        constraints: BoxConstraints.tight(
+          Size(16.0, height),
+        ),
+      ),
+      color: backgroundColor,
+      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+    );
+
     return SlideFadeTransition(
       animation: thumbAnimation,
-      child: Material(
-        elevation: 4.0,
-        child: Container(
-          constraints: BoxConstraints.tight(
-            Size(16.0, height),
+      child: labelText == null
+          ? scrollThumb
+          : Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ScrollLabel(
+            animation: labelAnimation,
+            child: labelText,
+            backgroundColor: backgroundColor,
           ),
-        ),
-        color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+          scrollThumb,
+        ],
       ),
     );
   }
