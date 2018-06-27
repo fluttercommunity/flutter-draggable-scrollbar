@@ -1,3 +1,6 @@
+## 0.0.2
+ * Moved package to [Flutter Community](https://github.com/fluttercommunity)
+
 ## 0.0.1
 
 * A Widget that helps users to scroll quickly through a list
