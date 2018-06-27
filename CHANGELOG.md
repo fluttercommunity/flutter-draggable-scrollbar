@@ -1,3 +1,6 @@
+## 0.0.3
+ * add demo to README
+
 ## 0.0.2
  * Moved package to [Flutter Community](https://github.com/fluttercommunity)
 
