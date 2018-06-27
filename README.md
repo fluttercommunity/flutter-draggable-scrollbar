@@ -1,5 +1,7 @@
 # Draggable Scrollbar
 
+[![Pub](https://img.shields.io/pub/v/draggable_scrollbar.svg)](https://pub.dartlang.org/packages/draggable_scrollbar)
+
 A scrollbar that can be dragged for quickly navigation through a vertical list. Additionaly it can show label next to scrollthumb with information about current item, for example date of picture created
 
 ## Usage
