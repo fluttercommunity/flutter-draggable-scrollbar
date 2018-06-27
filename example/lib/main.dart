@@ -207,13 +207,13 @@ class CustomDemo extends StatelessWidget {
       backgroundColor: Colors.blue,
       scrollThumbBuilder: (
           Color backgroundColor,
-          Animation<double> handleAnimation,
+          Animation<double> thumbAnimation,
           Animation<double> labelAnimation,
           double height, {
             Text labelText,
           }) {
         return FadeTransition(
-          opacity: handleAnimation,
+          opacity: thumbAnimation,
           child: Container(
             height: height,
             width: 20.0,

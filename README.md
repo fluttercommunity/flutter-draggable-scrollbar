@@ -107,17 +107,17 @@ DraggableScrollbar(
       );
     },
   ),
-  heightScrollHandle: 48.0,
+  heightScrollThumb: 48.0,
   backgroundColor: Colors.blue,
-  scrollHandleBuilder: (
+  scrollThumbBuilder: (
     Color backgroundColor,
-    Animation<double> handleAnimation,
+    Animation<double> thumbAnimation,
     Animation<double> labelAnimation,
     double height, {
     Text labelText,
   }) {
     return FadeTransition(
-      opacity: handleAnimation,
+      opacity: thumbAnimation,
       child: Container(
         height: height,
         width: 20.0,
