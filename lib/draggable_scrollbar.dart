@@ -339,8 +339,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   @override
   Widget build(BuildContext context) {
     Widget labelText;
-
-    if (widget.labelTextBuilder != null) {
+    if (widget.labelTextBuilder != null && _isDragInProcess) {
       labelText = widget.labelTextBuilder(
         _viewOffset + _barOffset + widget.heightScrollThumb / 2,
       );
@@ -352,8 +351,11 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
       },
       child: Stack(
         children: <Widget>[
-          widget.child,
-          GestureDetector(
+          new RepaintBoundary(
+            child: widget.child,
+          ),
+          new RepaintBoundary(
+              child: GestureDetector(
             onVerticalDragStart: _onVerticalDragStart,
             onVerticalDragUpdate: _onVerticalDragUpdate,
             onVerticalDragEnd: _onVerticalDragEnd,
@@ -370,7 +372,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
                 labelConstraints: widget.labelConstraints,
               ),
             ),
-          )
+          )),
         ],
       ),
     );
