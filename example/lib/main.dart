@@ -81,9 +81,9 @@ class SemicircleDemo extends StatelessWidget {
       labelTextBuilder: (offset) {
         final int currentItem = controller.hasClients
             ? (controller.offset /
-            controller.position.maxScrollExtent *
-            numItems)
-            .floor()
+                    controller.position.maxScrollExtent *
+                    numItems)
+                .floor()
             : 0;
 
         return Text("$currentItem");
@@ -119,9 +119,11 @@ class ArrowsDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollbar.arrows(
-      backgroundColor: Colors.pink,
+      alwaysVisibleScrollThumb: true,
+      backgroundColor: Colors.grey[850],
       padding: EdgeInsets.only(right: 4.0),
-      labelTextBuilder: (double offset) => Text("${offset ~/ _itemExtent}"),
+      labelTextBuilder: (double offset) => Text("${offset ~/ _itemExtent}",
+          style: TextStyle(color: Colors.white)),
       controller: controller,
       child: ListView.builder(
         controller: controller,
@@ -135,7 +137,9 @@ class ArrowsDemo extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
               color: Colors.purple[index % 9 * 100],
               child: Center(
-                child: Text(index.toString()),
+                child: Text(
+                  index.toString(),
+                ),
               ),
             ),
           );
@@ -207,13 +211,13 @@ class CustomDemo extends StatelessWidget {
       heightScrollThumb: 48.0,
       backgroundColor: Colors.blue,
       scrollThumbBuilder: (
-          Color backgroundColor,
-          Animation<double> thumbAnimation,
-          Animation<double> labelAnimation,
-          double height, {
-            Text labelText,
-            BoxConstraints labelConstraints,
-          }) {
+        Color backgroundColor,
+        Animation<double> thumbAnimation,
+        Animation<double> labelAnimation,
+        double height, {
+        Text labelText,
+        BoxConstraints labelConstraints,
+      }) {
         return FadeTransition(
           opacity: thumbAnimation,
           child: Container(

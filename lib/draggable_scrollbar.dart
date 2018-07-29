@@ -49,8 +49,12 @@ class DraggableScrollbar extends StatefulWidget {
   /// The ScrollController for the BoxScrollView
   final ScrollController controller;
 
+  /// Determines scrollThumb displaying. If you draw own ScrollThumb and it is true you just don't need to use animation parameters in [scrollThumbBuilder]
+  final bool alwaysVisibleScrollThumb;
+
   DraggableScrollbar({
     Key key,
+    this.alwaysVisibleScrollThumb = false,
     @required this.heightScrollThumb,
     @required this.backgroundColor,
     @required this.scrollThumbBuilder,
@@ -68,6 +72,8 @@ class DraggableScrollbar extends StatefulWidget {
 
   DraggableScrollbar.rrect({
     Key key,
+    Key scrollThumbKey,
+    this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
     this.heightScrollThumb = 48.0,
@@ -78,11 +84,14 @@ class DraggableScrollbar extends StatefulWidget {
     this.labelTextBuilder,
     this.labelConstraints,
   })  : assert(child.scrollDirection == Axis.vertical),
-        scrollThumbBuilder = _thumbRRectBuilder,
+        scrollThumbBuilder =
+            _thumbRRectBuilder(scrollThumbKey, alwaysVisibleScrollThumb),
         super(key: key);
 
   DraggableScrollbar.arrows({
     Key key,
+    Key scrollThumbKey,
+    this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
     this.heightScrollThumb = 48.0,
@@ -93,11 +102,14 @@ class DraggableScrollbar extends StatefulWidget {
     this.labelTextBuilder,
     this.labelConstraints,
   })  : assert(child.scrollDirection == Axis.vertical),
-        scrollThumbBuilder = _thumbArrowBuilder,
+        scrollThumbBuilder =
+            _thumbArrowBuilder(scrollThumbKey, alwaysVisibleScrollThumb),
         super(key: key);
 
   DraggableScrollbar.semicircle({
     Key key,
+    Key scrollThumbKey,
+    this.alwaysVisibleScrollThumb = false,
     @required this.child,
     @required this.controller,
     this.heightScrollThumb = 48.0,
@@ -108,13 +120,48 @@ class DraggableScrollbar extends StatefulWidget {
     this.labelTextBuilder,
     this.labelConstraints,
   })  : assert(child.scrollDirection == Axis.vertical),
-        scrollThumbBuilder = _thumbSemicircleBuilder(heightScrollThumb * 0.6),
+        scrollThumbBuilder = _thumbSemicircleBuilder(
+            heightScrollThumb * 0.6, scrollThumbKey, alwaysVisibleScrollThumb),
         super(key: key);
 
   @override
   _DraggableScrollbarState createState() => _DraggableScrollbarState();
 
-  static ScrollThumbBuilder _thumbSemicircleBuilder(double width) {
+  static buildScrollThumbAndLabel(
+      {@required Widget scrollThumb,
+      @required Color backgroundColor,
+      @required Animation<double> thumbAnimation,
+      @required Animation<double> labelAnimation,
+      @required Text labelText,
+      @required BoxConstraints labelConstraints,
+      @required bool alwaysVisibleScrollThumb}) {
+    var scrollThumbAndLabel = labelText == null
+        ? scrollThumb
+        : Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ScrollLabel(
+                animation: labelAnimation,
+                child: labelText,
+                backgroundColor: backgroundColor,
+                constraints: labelConstraints,
+              ),
+              scrollThumb,
+            ],
+          );
+
+    if (alwaysVisibleScrollThumb) {
+      return scrollThumbAndLabel;
+    }
+    return SlideFadeTransition(
+      animation: thumbAnimation,
+      child: scrollThumbAndLabel,
+    );
+  }
+
+  static ScrollThumbBuilder _thumbSemicircleBuilder(
+      double width, Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
       Animation<double> thumbAnimation,
@@ -124,6 +171,7 @@ class DraggableScrollbar extends StatefulWidget {
       BoxConstraints labelConstraints,
     }) {
       final scrollThumb = CustomPaint(
+        key: scrollThumbKey,
         foregroundPainter: ArrowCustomPainter(Colors.grey),
         child: Material(
           elevation: 4.0,
@@ -140,105 +188,85 @@ class DraggableScrollbar extends StatefulWidget {
         ),
       );
 
-      return SlideFadeTransition(
-        animation: thumbAnimation,
-        child: labelText == null
-            ? scrollThumb
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ScrollLabel(
-                    animation: labelAnimation,
-                    child: labelText,
-                    backgroundColor: backgroundColor,
-                    constraints: labelConstraints,
-                  ),
-                  scrollThumb,
-                ],
-              ),
+      return buildScrollThumbAndLabel(
+        scrollThumb: scrollThumb,
+        backgroundColor: backgroundColor,
+        thumbAnimation: thumbAnimation,
+        labelAnimation: labelAnimation,
+        labelText: labelText,
+        labelConstraints: labelConstraints,
+        alwaysVisibleScrollThumb: alwaysVisibleScrollThumb,
       );
     };
   }
 
-  static Widget _thumbArrowBuilder(
-    Color backgroundColor,
-    Animation<double> thumbAnimation,
-    Animation<double> labelAnimation,
-    double height, {
-    Text labelText,
-    BoxConstraints labelConstraints,
-  }) {
-    final scrollThumb = ClipPath(
-      child: Container(
-        height: height,
-        width: 20.0,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12.0),
+  static ScrollThumbBuilder _thumbArrowBuilder(
+      Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
+    return (
+      Color backgroundColor,
+      Animation<double> thumbAnimation,
+      Animation<double> labelAnimation,
+      double height, {
+      Text labelText,
+      BoxConstraints labelConstraints,
+    }) {
+      final scrollThumb = ClipPath(
+        child: Container(
+          height: height,
+          width: 20.0,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
+            ),
           ),
         ),
-      ),
-      clipper: ArrowClipper(),
-    );
+        clipper: ArrowClipper(),
+      );
 
-    return SlideFadeTransition(
-      animation: thumbAnimation,
-      child: labelText == null
-          ? scrollThumb
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ScrollLabel(
-                  child: labelText,
-                  animation: labelAnimation,
-                  backgroundColor: backgroundColor,
-                  constraints: labelConstraints,
-                ),
-                scrollThumb
-              ],
-            ),
-    );
+      return buildScrollThumbAndLabel(
+        scrollThumb: scrollThumb,
+        backgroundColor: backgroundColor,
+        thumbAnimation: thumbAnimation,
+        labelAnimation: labelAnimation,
+        labelText: labelText,
+        labelConstraints: labelConstraints,
+        alwaysVisibleScrollThumb: alwaysVisibleScrollThumb,
+      );
+    };
   }
 
-  static Widget _thumbRRectBuilder(
-    Color backgroundColor,
-    Animation<double> thumbAnimation,
-    Animation<double> labelAnimation,
-    double height, {
-    Text labelText,
-    BoxConstraints labelConstraints,
-  }) {
-    final scrollThumb = Material(
-      elevation: 4.0,
-      child: Container(
-        constraints: BoxConstraints.tight(
-          Size(16.0, height),
+  static ScrollThumbBuilder _thumbRRectBuilder(
+      Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
+    return (
+      Color backgroundColor,
+      Animation<double> thumbAnimation,
+      Animation<double> labelAnimation,
+      double height, {
+      Text labelText,
+      BoxConstraints labelConstraints,
+    }) {
+      final scrollThumb = Material(
+        elevation: 4.0,
+        child: Container(
+          constraints: BoxConstraints.tight(
+            Size(16.0, height),
+          ),
         ),
-      ),
-      color: backgroundColor,
-      borderRadius: BorderRadius.all(Radius.circular(7.0)),
-    );
+        color: backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+      );
 
-    return SlideFadeTransition(
-      animation: thumbAnimation,
-      child: labelText == null
-          ? scrollThumb
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ScrollLabel(
-                  animation: labelAnimation,
-                  child: labelText,
-                  backgroundColor: backgroundColor,
-                  constraints: labelConstraints,
-                ),
-                scrollThumb,
-              ],
-            ),
-    );
+      return buildScrollThumbAndLabel(
+        scrollThumb: scrollThumb,
+        backgroundColor: backgroundColor,
+        thumbAnimation: thumbAnimation,
+        labelAnimation: labelAnimation,
+        labelText: labelText,
+        labelConstraints: labelConstraints,
+        alwaysVisibleScrollThumb: alwaysVisibleScrollThumb,
+      );
+    };
   }
 }
 
