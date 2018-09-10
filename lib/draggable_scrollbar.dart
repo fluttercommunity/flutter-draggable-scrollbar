@@ -375,7 +375,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
 
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      print("LayoutBuilder constraints=$constraints");
+      //print("LayoutBuilder constraints=$constraints");
 
       return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification notification) {
