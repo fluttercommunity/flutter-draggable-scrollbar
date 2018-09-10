@@ -277,7 +277,7 @@ class ScrollLabel extends StatelessWidget {
 
   final BoxConstraints constraints;
   static const BoxConstraints _defaultConstraints =
-      const BoxConstraints.tightFor(width: 72.0, height: 28.0);
+      BoxConstraints.tightFor(width: 72.0, height: 28.0);
 
   const ScrollLabel({
     Key key,
@@ -292,7 +292,7 @@ class ScrollLabel extends StatelessWidget {
     return FadeTransition(
       opacity: animation,
       child: Container(
-        margin: const EdgeInsets.only(right: 12.0),
+        margin: EdgeInsets.only(right: 12.0),
         child: Material(
           elevation: 4.0,
           color: backgroundColor,
@@ -373,37 +373,42 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
       );
     }
 
-    return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification notification) {
-        changePosition(notification);
-      },
-      child: Stack(
-        children: <Widget>[
-          new RepaintBoundary(
-            child: widget.child,
-          ),
-          new RepaintBoundary(
-              child: GestureDetector(
-            onVerticalDragStart: _onVerticalDragStart,
-            onVerticalDragUpdate: _onVerticalDragUpdate,
-            onVerticalDragEnd: _onVerticalDragEnd,
-            child: Container(
-              alignment: Alignment.topRight,
-              margin: EdgeInsets.only(top: _barOffset),
-              padding: widget.padding,
-              child: widget.scrollThumbBuilder(
-                widget.backgroundColor,
-                _thumbAnimation,
-                _labelAnimation,
-                widget.heightScrollThumb,
-                labelText: labelText,
-                labelConstraints: widget.labelConstraints,
-              ),
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      print("LayoutBuilder constraints=$constraints");
+
+      return NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification notification) {
+          changePosition(notification);
+        },
+        child: Stack(
+          children: <Widget>[
+            RepaintBoundary(
+              child: widget.child,
             ),
-          )),
-        ],
-      ),
-    );
+            RepaintBoundary(
+                child: GestureDetector(
+              onVerticalDragStart: _onVerticalDragStart,
+              onVerticalDragUpdate: _onVerticalDragUpdate,
+              onVerticalDragEnd: _onVerticalDragEnd,
+              child: Container(
+                alignment: Alignment.topRight,
+                margin: EdgeInsets.only(top: _barOffset),
+                padding: widget.padding,
+                child: widget.scrollThumbBuilder(
+                  widget.backgroundColor,
+                  _thumbAnimation,
+                  _labelAnimation,
+                  widget.heightScrollThumb,
+                  labelText: labelText,
+                  labelConstraints: widget.labelConstraints,
+                ),
+              ),
+            )),
+          ],
+        ),
+      );
+    });
   }
 
   //scroll bar has received notification that it's view was scrolled
@@ -613,8 +618,8 @@ class SlideFadeTransition extends StatelessWidget {
       builder: (context, child) => animation.value == 0.0 ? Container() : child,
       child: SlideTransition(
         position: Tween(
-          begin: const Offset(0.3, 0.0),
-          end: const Offset(0.0, 0.0),
+          begin: Offset(0.3, 0.0),
+          end: Offset(0.0, 0.0),
         ).animate(animation),
         child: FadeTransition(
           opacity: animation,
