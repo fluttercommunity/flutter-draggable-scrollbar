@@ -158,7 +158,7 @@ class RRectDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return DraggableScrollbar.rrect(
       controller: controller,
-      labelTextBuilder: (offset) => new Text("${offset.floor()}"),
+      labelTextBuilder: (offset) => Text("${offset.floor()}"),
       child: ListView.builder(
         controller: controller,
         itemCount: 1000,

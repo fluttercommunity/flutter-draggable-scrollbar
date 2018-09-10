@@ -1,3 +1,7 @@
+## 0.0.4
+ * support Dart 2.0
+ * add LayoutBuilder and RepaintBoundary
+
 ## 0.0.3
  * add demo to README
 
