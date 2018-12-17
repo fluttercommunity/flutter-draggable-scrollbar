@@ -346,6 +346,16 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
       parent: _labelAnimationController,
       curve: Curves.fastOutSlowIn,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        _initOffsetForScrollInitialOffset());
+  }
+
+  /// init offset when widgets finish loading
+  void _initOffsetForScrollInitialOffset() {
+    _viewOffset = widget.controller.initialScrollOffset;
+    _barOffset = _viewOffset / viewMaxScrollExtent * barMaxScrollExtent;
+    setState(() {});
   }
 
   @override
