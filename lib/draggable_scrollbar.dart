@@ -350,6 +350,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
 
   @override
   void dispose() {
+    _labelAnimationController.dispose();
     _thumbAnimationController.dispose();
     _fadeoutTimer?.cancel();
     super.dispose();
