@@ -1,4 +1,4 @@
-<img src="https://github.com/fluttercommunity/flutter-draggable-scrollbar/raw/gh-pages/fc-draggable-scrollbar.png" width="600"/>
+[![Flutter Community: draggable_scrollbar](https://fluttercommunity.dev/_github/header/draggable_scrollbar)](https://github.com/fluttercommunity/community)
 
 # Draggable Scrollbar
 
