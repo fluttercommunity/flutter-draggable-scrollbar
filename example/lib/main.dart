@@ -38,12 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
   ScrollController _semicircleController = ScrollController();
   ScrollController _arrowsController = ScrollController();
   ScrollController _rrectController = ScrollController();
+  ScrollController _horizontalController = ScrollController();
   ScrollController _customController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -51,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Tab(text: 'Semicircle'),
             Tab(text: 'Arrows'),
             Tab(text: 'RRect'),
+            Tab(text: 'Horizontal'),
             Tab(text: 'Custom'),
           ]),
         ),
@@ -58,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SemicircleDemo(controller: _semicircleController),
           ArrowsDemo(controller: _arrowsController),
           RRectDemo(controller: _rrectController),
+          HorizontalScrollbarDemo(controller: _horizontalController),
           CustomDemo(controller: _customController),
         ]),
       ),
@@ -81,9 +84,9 @@ class SemicircleDemo extends StatelessWidget {
       labelTextBuilder: (offset) {
         final int currentItem = controller.hasClients
             ? (controller.offset /
-                    controller.position.maxScrollExtent *
-                    numItems)
-                .floor()
+            controller.position.maxScrollExtent *
+            numItems)
+            .floor()
             : 0;
 
         return Text("$currentItem");
@@ -158,7 +161,7 @@ class RRectDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return DraggableScrollbar.rrect(
       controller: controller,
-      labelTextBuilder: (offset) => Text("${offset.floor()}"),
+      labelTextBuilder: (offset) => Text("${offset ~/ 100}"),
       child: ListView.builder(
         controller: controller,
         itemCount: 1000,
@@ -208,25 +211,71 @@ class CustomDemo extends StatelessWidget {
           );
         },
       ),
-      heightScrollThumb: 48.0,
+      sizeScrollThumb: 48.0,
       backgroundColor: Colors.blue,
-      scrollThumbBuilder: (
-        Color backgroundColor,
-        Animation<double> thumbAnimation,
-        Animation<double> labelAnimation,
-        double height, {
-        Text labelText,
-        BoxConstraints labelConstraints,
-      }) {
+      scrollThumbBuilder: (Color backgroundColor,
+          Animation<double> thumbAnimation,
+          Animation<double> labelAnimation,
+          double height, {
+            Text labelText,
+            BoxConstraints labelConstraints,
+            Axis scrollDirection,
+          }) {
+        var width = 20.0;
+        if (!isVertical(scrollDirection)) {
+          width = width + height;
+          height = width - height;
+          width = width - height;
+        }
         return FadeTransition(
           opacity: thumbAnimation,
           child: Container(
             height: height,
-            width: 20.0,
+            width: width,
             color: backgroundColor,
           ),
         );
       },
+    );
+  }
+}
+
+/// Horizontal Scrollbar Demo
+class HorizontalScrollbarDemo extends StatefulWidget {
+  final ScrollController controller;
+
+  const HorizontalScrollbarDemo({Key key, this.controller}) : super(key: key);
+
+  @override
+  _HorizontalScrollbarDemoState createState() =>
+      _HorizontalScrollbarDemoState();
+}
+
+class _HorizontalScrollbarDemoState extends State<HorizontalScrollbarDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollbar.rrect(
+      controller: widget.controller,
+      labelTextBuilder: (offset) => Text("${offset ~/ 100}"),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        controller: widget.controller,
+        itemCount: 1000,
+        itemExtent: 100.0,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.all(8.0),
+            child: Material(
+              elevation: 4.0,
+              borderRadius: BorderRadius.circular(4.0),
+              color: Colors.cyan[index % 9 * 100],
+              child: Center(
+                child: Text(index.toString()),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
