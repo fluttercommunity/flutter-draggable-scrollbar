@@ -212,6 +212,7 @@ class CustomDemo extends StatelessWidget {
       backgroundColor: Colors.blue,
       scrollThumbBuilder: (
         Color backgroundColor,
+        Color foregroundColor,
         Animation<double> thumbAnimation,
         Animation<double> labelAnimation,
         double height, {
