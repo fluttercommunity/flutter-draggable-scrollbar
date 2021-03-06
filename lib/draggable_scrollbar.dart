@@ -155,7 +155,7 @@ class DraggableScrollbar extends StatefulWidget {
       return scrollThumbAndLabel;
     }
     return SlideFadeTransition(
-      animation: thumbAnimation,
+      animation: thumbAnimation!,
       child: scrollThumbAndLabel,
     );
   }
@@ -315,10 +315,10 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   late bool _isDragInProcess;
 
   late AnimationController _thumbAnimationController;
-  Animation<double>? _thumbAnimation;
+  late Animation<double> _thumbAnimation;
   late AnimationController _labelAnimationController;
-  Animation<double>? _labelAnimation;
-  Timer? _fadeoutTimer;
+  late Animation<double> _labelAnimation;
+  late Timer _fadeoutTimer;
 
   @override
   void initState() {
@@ -602,7 +602,7 @@ class ArrowClipper extends CustomClipper<Path> {
 }
 
 class SlideFadeTransition extends StatelessWidget {
-  final Animation<double>? animation;
+  final Animation<double> animation;
   final Widget child;
 
   const SlideFadeTransition({
@@ -614,15 +614,15 @@ class SlideFadeTransition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animation!,
-      builder: (context, child) => animation!.value == 0.0 ? Container() : child!,
+      animation: animation,
+      builder: (context, child) => animation.value == 0.0 ? Container() : child!,
       child: SlideTransition(
         position: Tween(
           begin: Offset(0.3, 0.0),
           end: Offset(0.0, 0.0),
-        ).animate(animation!),
+        ).animate(animation),
         child: FadeTransition(
-          opacity: animation!,
+          opacity: animation,
           child: child,
         ),
       ),
