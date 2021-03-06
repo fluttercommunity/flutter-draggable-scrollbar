@@ -318,7 +318,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   late Animation<double> _thumbAnimation;
   late AnimationController _labelAnimationController;
   late Animation<double> _labelAnimation;
-  late Timer _fadeoutTimer;
+  Timer? _fadeoutTimer;
 
   @override
   void initState() {
