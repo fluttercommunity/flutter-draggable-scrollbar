@@ -366,7 +366,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
 
   @override
   Widget build(BuildContext context) {
-    Widget? labelText;
+    Text? labelText;
     if (widget.labelTextBuilder != null && _isDragInProcess) {
       labelText = widget.labelTextBuilder!(
         _viewOffset + _barOffset + widget.heightScrollThumb / 2,
@@ -380,6 +380,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
       return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification notification) {
           changePosition(notification);
+          return false;
         },
         child: Stack(
           children: <Widget>[
