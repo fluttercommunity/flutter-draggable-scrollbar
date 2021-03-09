@@ -380,7 +380,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
       return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification notification) {
           changePosition(notification);
-        } as bool Function(ScrollNotification)?,
+        },
         child: Stack(
           children: <Widget>[
             RepaintBoundary(
@@ -400,7 +400,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
                   _thumbAnimation,
                   _labelAnimation,
                   widget.heightScrollThumb,
-                  labelText: labelText as Text?,
+                  labelText: labelText,
                   labelConstraints: widget.labelConstraints,
                 ),
               ),
