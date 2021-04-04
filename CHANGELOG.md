@@ -1,3 +1,6 @@
+## 0.1.0
+ * Added Null-safety support. Thanks to @fzyzcjy
+
 ## 0.0.4
  * support Dart 2.0
  * add LayoutBuilder and RepaintBoundary
