@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 /// Build the Scroll Thumb and label using the current configuration
 typedef Widget ScrollThumbBuilder(
   Color backgroundColor,
-  Animation<double>? thumbAnimation,
-  Animation<double>? labelAnimation,
+  Animation<double> thumbAnimation,
+  Animation<double> labelAnimation,
   double height, {
   Text? labelText,
   BoxConstraints? labelConstraints,
@@ -164,8 +164,8 @@ class DraggableScrollbar extends StatefulWidget {
       double width, Key? scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
-      Animation<double>? thumbAnimation,
-      Animation<double>? labelAnimation,
+      Animation<double> thumbAnimation,
+      Animation<double> labelAnimation,
       double height, {
       Text? labelText,
       BoxConstraints? labelConstraints,
@@ -204,8 +204,8 @@ class DraggableScrollbar extends StatefulWidget {
       Key? scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
-      Animation<double>? thumbAnimation,
-      Animation<double>? labelAnimation,
+      Animation<double> thumbAnimation,
+      Animation<double> labelAnimation,
       double height, {
       Text? labelText,
       BoxConstraints? labelConstraints,
@@ -240,8 +240,8 @@ class DraggableScrollbar extends StatefulWidget {
       Key? scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
-      Animation<double>? thumbAnimation,
-      Animation<double>? labelAnimation,
+      Animation<double> thumbAnimation,
+      Animation<double> labelAnimation,
       double height, {
       Text? labelText,
       BoxConstraints? labelConstraints,
@@ -351,6 +351,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   @override
   void dispose() {
     _thumbAnimationController.dispose();
+    _labelAnimationController.dispose();
     _fadeoutTimer?.cancel();
     super.dispose();
   }
