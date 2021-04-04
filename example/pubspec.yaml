@@ -1,8 +1,8 @@
 name: example
-description: An example application that demonstrates how to use a the draggable_scrollbar package 
+description: An example application that demonstrates how to use a the draggable_scrollbar package
 
-environment:                                                            
-  sdk: '>=2.10.0 <3.0.0' 
+environment:
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   draggable_scrollbar:

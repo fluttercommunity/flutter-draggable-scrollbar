@@ -12,8 +12,8 @@ class DraggableScrollBarDemo extends StatelessWidget {
   final String title;
 
   const DraggableScrollBarDemo({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -26,7 +26,10 @@ class DraggableScrollBarDemo extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   final String title;
 
@@ -71,8 +74,8 @@ class SemicircleDemo extends StatelessWidget {
   final ScrollController controller;
 
   const SemicircleDemo({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -80,10 +83,7 @@ class SemicircleDemo extends StatelessWidget {
     return DraggableScrollbar.semicircle(
       labelTextBuilder: (offset) {
         final int currentItem = controller.hasClients
-            ? (controller.offset /
-                    controller.position.maxScrollExtent *
-                    numItems)
-                .floor()
+            ? (controller.offset / controller.position.maxScrollExtent * numItems).floor()
             : 0;
 
         return Text("$currentItem");
@@ -112,7 +112,10 @@ class SemicircleDemo extends StatelessWidget {
 class ArrowsDemo extends StatelessWidget {
   final ScrollController controller;
 
-  const ArrowsDemo({Key key, @required this.controller}) : super(key: key);
+  const ArrowsDemo({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   final _itemExtent = 100.0;
 
@@ -120,10 +123,10 @@ class ArrowsDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return DraggableScrollbar.arrows(
       alwaysVisibleScrollThumb: true,
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.grey.shade800,
       padding: EdgeInsets.only(right: 4.0),
-      labelTextBuilder: (double offset) => Text("${offset ~/ _itemExtent}",
-          style: TextStyle(color: Colors.white)),
+      labelTextBuilder: (double offset) =>
+          Text("${offset ~/ _itemExtent}", style: TextStyle(color: Colors.white)),
       controller: controller,
       child: ListView.builder(
         controller: controller,
@@ -152,7 +155,10 @@ class ArrowsDemo extends StatelessWidget {
 class RRectDemo extends StatelessWidget {
   final ScrollController controller;
 
-  const RRectDemo({Key key, @required this.controller}) : super(key: key);
+  const RRectDemo({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +190,10 @@ class RRectDemo extends StatelessWidget {
 class CustomDemo extends StatelessWidget {
   final ScrollController controller;
 
-  const CustomDemo({Key key, @required this.controller}) : super(key: key);
+  const CustomDemo({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +224,8 @@ class CustomDemo extends StatelessWidget {
         Animation<double> thumbAnimation,
         Animation<double> labelAnimation,
         double height, {
-        Text labelText,
-        BoxConstraints labelConstraints,
+        Text? labelText,
+        BoxConstraints? labelConstraints,
       }) {
         return FadeTransition(
           opacity: thumbAnimation,
