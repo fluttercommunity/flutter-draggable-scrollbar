@@ -357,7 +357,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   }
 
   double get barMaxScrollExtent =>
-      context.size!.height - widget.heightScrollThumb;
+      context.size!.height - widget.heightScrollThumb - (widget.padding == null ? 0.0 : widget.padding!.vertical);
 
   double get barMinScrollExtent => 0.0;
 
